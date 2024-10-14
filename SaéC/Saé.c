@@ -1,53 +1,68 @@
 #pragma warning (disable : 4996)
 #include <stdio.h>
 #include <string.h>
+
+// enum
 #define MAX_ETUDIANTS 100
 #define MAX_NOM 30
+#define DEMI_JOURNEE 3
 
+// définir les groupes
 typedef struct {
     char nom[MAX_NOM];
     int groupe;
+    int nbEtudiants;
+    Etudiant etudiants[MAX_ETUDIANTS];
 } Etudiant;
 
+//definir absences
+typedef struct {
+    int id_etu;
+    int jour;
+    char demi_journee[DEMI_JOURNEE];
+    Absence absence[MAX_ETUDIANTS];
+    int nbAbsences;
+} Absence;
+
+char input[MAX_NOM];
+
+/*
 Etudiant etudiants[MAX_ETUDIANTS];
 int nbEtudiants = 0;
 char input[MAX_NOM];
-int groupe;
+int groupe;*/
 
 int verification(Etudiant etudiants[], int* nbEtudiants, char nom[], int groupe) {
+    Etudiant e;
     for (int i = 0; i < *nbEtudiants; ++i) {
-        if (strcmp(etudiants[i].nom, nom) == 0 && etudiants[i].groupe == groupe) {
-            printf("Nom incorrect, il existe déjà un etudiant portant ce nom dans ce groupe.\n");
+        if (strcmp(e.etudiants[i].nom, e.nom) == 0 &&  e.etudiants[i].groupe == e.groupe) {
+            printf("Nom incorrect, il existe deja un etudiant portant ce nom dans ce groupe.\n");
             return 0;
         }
     }
-
-    strcpy(etudiants[*nbEtudiants].nom, nom);
+  
+   // on ajoute aux tableaux les valeurs entrées
+    strcpy(e.etudiants[*nbEtudiants].nom, nom);
     etudiants[*nbEtudiants].groupe = groupe;
     (*nbEtudiants)++;
-    return 1;
-}
+    return 1; //return 1 : le programme SORT de la fonction
+}              //return 0 : tout s'est bien passé
 
 void inscription() {
     char commande[12];
-    printf("Entrez une commande ici (inscription) suivi d'un nom et d'un numero de groupe : ");
-    scanf("%s %s %d", commande, input, &groupe);
+ 
+    scanf("%s %d", &input, &groupe);
 
     if (verification(etudiants, &nbEtudiants, input, groupe)) {
         printf("Inscription realisee (%d)\n", nbEtudiants);
     }
 }
 
-typedef struct {
-    int id_etu;
-    int jour;
-    char demi_journee[3];
-} Absence;
 
-Absence absence[MAX_ETUDIANTS];
-int nbAbsences = 0;
 
 int verification_abs(int id_etu, int jour, char* demi_journee) {
+    Absence a;
+    a.nbAbsences = 0; 
     if (id_etu < 1 || id_etu > nbEtudiants) {
         printf("Identifiant Incorrect\n");
         return 1;
@@ -69,9 +84,10 @@ int verification_abs(int id_etu, int jour, char* demi_journee) {
         }
     }
 
-    absence[nbAbsences].id_etu = id_etu;
-    absence[nbAbsences].jour = jour;
-    strcpy(absence[nbAbsences].demi_journee, demi_journee);
+    // on ajoute aux tableaux les valeurs entrées
+    a.absence[nbAbsences].id_etu = id_etu;
+    a.absence[nbAbsences].jour = jour;
+    strcpy(a[nbAbsences].demi_journee, demi_journee);
     nbAbsences++;
     return 1;
 }
@@ -79,16 +95,16 @@ int verification_abs(int id_etu, int jour, char* demi_journee) {
 void absence_enrengistrement() {
     int id_etu, jour;
     char demi_journee[3];
-    printf("Entrez l'identifiant, le jour, et la demi-journee (am/pm)");
+  
     scanf("%d %d %s", &id_etu, &jour, demi_journee);
 
     if (verification_abs(id_etu, jour, demi_journee)) {
-        printf("Absence enrengistree [%d]\n", nbAbsences);
+        printf("Absence enrengistree [%d]\n", a.nbAbsences);
     }
 }
 
 int main() {
-    printf("Veuillez entrer une commande : exit pour quitter\n");
+  
     char commande[12];
 
     do {
@@ -105,11 +121,20 @@ int main() {
             absence_enrengistrement();
         }
 
-    } while (1);
+    } while (strcmp(commande, "exit") != 0);
 
     return 0;
 }
 
+typedef struct {
+   
+}
+
+void justification();
+int id_abs, jour;
+char justif[51];
+scanf("%d %d %s", id_abs, jour, justif);
 
 
-caca
+
+
